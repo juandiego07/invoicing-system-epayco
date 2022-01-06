@@ -11,26 +11,37 @@
                 <div class="card mt-5">
                     <h5 class="card-header">Register User</h5>
                     <div class="card-body">
-                        <form method="POST" action={{route('register.store')}}>
+                        <form method="POST" action={{ route('register.store') }}>
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Names and Last Name</label>
                                 <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp">
-                                {{-- <div id="name" class="form-text">We'll never share your email with anyone else.</div> --}}
+                                @error('name')
+                                    <div id="error" class="form-text" style="color: red">{{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email address</label>
                                 <input type="email" class="form-control" id="email" name="email"
                                     aria-describedby="emailHelp">
-                                {{-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
+                                @error('email')
+                                    <div id="error" class="form-text" style="color: red">{{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password">
                             </div>
+                            @error('password')
+                                <div id="error" class="form-text" style="color: red">{{ $message }}
+                                </div>
+                            @enderror
                             <div class="mb-3">
                                 <label for="passwordConfirmation" class="form-label">Password Confirmation</label>
-                                <input type="password" class="form-control" id="passwordConfirmation" name="passwordConfirmation">
+                                <input type="password" class="form-control" id="passwordConfirmation"
+                                    name="passwordConfirmation">
                             </div>
                             <button type="submit" class="btn btn-primary">Send</button>
                         </form>
