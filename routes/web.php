@@ -22,5 +22,6 @@ Route::get('/', function () {
 });
 
 Route::get('/register', 'App\Http\Controllers\RegisterController@create')->name('register');
+Route::post('/register', 'App\Http\Controllers\RegisterController@store')->name('register.store');
 
 Route::get('/login', 'App\Http\Controllers\SessionController@create')->name('login');
