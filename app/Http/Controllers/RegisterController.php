@@ -15,16 +15,20 @@ class RegisterController extends Controller
     }
 
     public function store(Request $request)
-    {   
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required|confirmated',
+        ]);
+
         $data = [
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => $request->input('password'),
         ];
         $user = User::create($data);
-        // dd($user);
         Auth::login($user);
         return redirect()->to('/');
-
     }
 }
