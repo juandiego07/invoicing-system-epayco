@@ -19,7 +19,7 @@ class RegisterController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required|confirmated',
+            'password' => 'required|confirmed',
         ]);
 
         $data = [

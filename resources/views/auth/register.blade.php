@@ -39,9 +39,9 @@
                                 </div>
                             @enderror
                             <div class="mb-3">
-                                <label for="passwordConfirmation" class="form-label">Password Confirmation</label>
-                                <input type="password" class="form-control" id="passwordConfirmation"
-                                    name="passwordConfirmation">
+                                <label for="password_confirmation" class="form-label">Password Confirmation</label>
+                                <input type="password" class="form-control" id="password_confirmation"
+                                    name="password_confirmation">
                             </div>
                             <button type="submit" class="btn btn-primary">Send</button>
                         </form>
