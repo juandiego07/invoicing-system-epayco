@@ -36,3 +36,15 @@ Route::post('/login', 'App\Http\Controllers\SessionController@store')
 Route::get('/logout', 'App\Http\Controllers\SessionController@destroy')
     ->middleware('auth')
     ->name('login.destroy');
+
+Route::get('/client', 'App\Http\Controllers\ClientController@create')
+    ->middleware('auth')
+    ->name('client');
+Route::post('/client', 'App\Http\Controllers\ClientController@store')
+    ->name('client.store');
+
+Route::get('/bill', 'App\Http\Controllers\BillController@create')
+    ->middleware('auth')
+    ->name('bill');
+Route::post('/bill', 'App\Http\Controllers\BillController@store')
+    ->name('bill.store');    
