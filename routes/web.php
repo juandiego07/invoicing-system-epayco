@@ -37,11 +37,11 @@ Route::get('/logout', 'App\Http\Controllers\SessionController@destroy')
     ->middleware('auth')
     ->name('login.destroy');
 
-Route::get('/client', 'App\Http\Controllers\ClientController@create')
+Route::get('/customer', 'App\Http\Controllers\CustomerController@create')
     ->middleware('auth')
-    ->name('client');
-Route::post('/client', 'App\Http\Controllers\ClientController@store')
-    ->name('client.store');
+    ->name('customer');
+Route::post('/customer', 'App\Http\Controllers\CustomerController@store')
+    ->name('customer.store');
 
 Route::get('/bill', 'App\Http\Controllers\BillController@create')
     ->middleware('auth')

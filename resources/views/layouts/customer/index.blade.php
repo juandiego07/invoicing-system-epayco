@@ -1,24 +1,23 @@
 @extends('layouts.app')
 
-@section('title', 'Client')
+@section('title', 'Customer')
 
 @section('content')
 
     <div class="container">
         <div class="row mt-5">
             <div class="col-12 d-flex flex-row-reverse">
-                {{-- <button class="btn btn-secondary" type="button">New Client</button> --}}
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    New Client
+                    New Customer
                 </button>
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
-                        <form method="POST" action={{ route('client.store') }}>
+                        <form method="POST" action={{ route('customer.store') }}>
                             @csrf
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Add Client</h5>
+                                    <h5 class="modal-title" id="staticBackdropLabel">Add Customer</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -84,7 +83,7 @@
         <hr class="mt-2">
         <div class="card mt-2">
             <div class="card-header">
-                <h3>Clients Registered</h3>
+                <h3>Customers Registered</h3>
             </div>
             <div class="card-body">
                 <table class="table table-hover">
@@ -99,7 +98,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($clients as $item)
+                        @foreach ($customers as $item)
                             <tr>
                                 <td>{{ $item->document_type }}</td>
                                 <td>{{ $item->document_number }}</td>
