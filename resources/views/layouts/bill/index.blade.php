@@ -7,7 +7,6 @@
     <div class="container">
         <div class="row mt-5">
             <div class="col-12 d-flex flex-row-reverse">
-                {{-- <button class="btn btn-secondary" type="button">New Client</button> --}}
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     New Bill
                 </button>
@@ -25,12 +24,12 @@
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-12 mb-2">
-                                            <label for="client" class="form-label">Client</label>
-                                            <select class="form-select" aria-label="Default select example" id="client"
-                                                name="client">
+                                            <label for="customer" class="form-label">Customer</label>
+                                            <select class="form-select" aria-label="Default select example" id="customer"
+                                                name="customer">
                                                 <option selected></option>
-                                                @foreach ($clients as $item)
-                                                    <option value={{ $item->document_type }} {{ $item->document_number }} {{ $item->user_id }}>{{ $item->name }} {{ $item->last_name }}</option>
+                                                @foreach ($customers as $item)
+                                                    <option value={{ $item->id }}>{{ $item->name }} {{ $item->last_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -39,7 +38,7 @@
                                         <div class="col-6 mb-2">
                                             <label for="date" class="form-label">Date</label>
                                             <input type="date" class="form-control" id="date" name="date"
-                                                value="2022-01-08" disabled>
+                                                value="2022-01-08">
                                         </div>
                                         <div class="col-6 mb-2">
                                             <label for="expiration_date" class="form-label">Expiration Date</label>
@@ -92,25 +91,27 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">Type</th>
-                            <th scope="col">Document</th>
-                            <th scope="col">Names</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Phone</th>
+                            <th scope="col">Number</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Expiration Date</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Actinos</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($clients as $item)
+                        @foreach ($bills as $item)
                             <tr>
-                                <td>{{ $item->document_type }}</td>
-                                <td>{{ $item->document_number }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->last_name }}</td>
-                                <td>{{ $item->phone_number }}</td>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->name }} {{ $item->last_name }}</td>
+                                <td>{{ $item->amount }}</td>
+                                <td>{{ $item->expiration_date }}</td>
+                                <td>{{ $item->status }}</td>
                                 <td><i class="bi bi-pencil-square btn btn-primary"></i> | <i class="bi bi-x-square btn btn-danger"></i></td>
                             </tr> 
-                        @endforeach --}}
+                        @endforeach
                     </tbody>
                 </table>
             </div>
