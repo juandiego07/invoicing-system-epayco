@@ -30,7 +30,7 @@
                     </li> --}}
                     @if (Auth::check())
                         <li class="nav-item">
-                            <a class="nav-link" href={{ route('client') }}>Clients</a>
+                            <a class="nav-link" href={{ route('customer') }}>Customers</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href={{ route('bill') }}>Bills</a>
