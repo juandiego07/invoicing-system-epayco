@@ -1,80 +1,91 @@
 @extends('layouts.app')
 
-@section('title', 'Bill')
+@section('title', 'Facturación')
 
 @section('content')
 
     <div class="container">
-        <div class="row mt-5">
+        <div class="row my-2">
             <div class="col-12 d-flex flex-row-reverse">
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    New Bill
+                    Nueva Factura
                 </button>
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
-                        <form method="POST" action={{ route('bill.store') }}>
+                        <form class="needs-validation" method="POST" action={{ route('bill.store') }} id="form"
+                            autocomplete="off" novalidate>
                             @csrf
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel">Add Bill</h5>
+                                    <h5 class="modal-title fst-italic" id="staticBackdropLabel">Agregar Factura</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-12 mb-2">
-                                            <label for="customer" class="form-label">Customer</label>
+                                            <label for="customer" class="form-label">Cliente</label>
                                             <select class="form-select" aria-label="Default select example" id="customer"
-                                                name="customer">
+                                                name="customer" required>
                                                 <option selected></option>
                                                 @foreach ($customers as $item)
-                                                    <option value={{ $item->id }}>{{ $item->name }} {{ $item->last_name }}</option>
+                                                    <option value={{ $item->id }}>{{ $item->name }}
+                                                        {{ $item->last_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6 mb-2">
-                                            <label for="date" class="form-label">Date</label>
-                                            <input type="date" class="form-control" id="date" name="date"
-                                                value="2022-01-08">
+                                        <div class="col-5 mb-2">
+                                            <label for="date" class="form-label">Fecha</label>
+                                            <input type="date" class="form-control" id="date" name="date" readonly>
                                         </div>
-                                        <div class="col-6 mb-2">
-                                            <label for="expiration_date" class="form-label">Expiration Date</label>
+
+                                        <div class="col-5 mb-2">
+                                            <label for="expiration_date" class="form-label">Fecha de vencimiento</label>
                                             <input type="date" class="form-control" id="expiration_date"
-                                                name="expiration_date">
+                                                name="expiration_date" required>
+                                        </div>
+
+                                        <div class="col-2 mb-2">
+                                            <label for="currency" class="form-label">Moneda</label>
+                                            <select class="form-select" aria-label="Default select example" id="currency"
+                                                name="currency">
+                                                <option value="cop" selected>COP</option>
+                                                <option value="usd">USD</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12 mb-2">
-                                            <label for="description" class="form-label">Description</label>
+                                            <label for="description" class="form-label">Descripción</label>
                                             <textarea type="number" class="form-control" id="description"
-                                                name="description" rows="4"
-                                                placeholder="Description producto or services"></textarea>
+                                                name="description" rows="4" placeholder="Description producto or services"
+                                                required></textarea>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-4 mb-2">
-                                            <label for="tax_base" class="form-label">Tax Base</label>
+                                            <label for="tax_base" class="form-label">Valor base</label>
                                             <input type="number" class="form-control" id="tax_base" name="tax_base"
-                                                placeholder="$ 100,00 COP">
+                                                placeholder="$ 100,00 COP" required>
                                         </div>
                                         <div class="col-4 mb-2">
-                                            <label for="tax" class="form-label">Tax</label>
+                                            <label for="tax" class="form-label">Impuesto</label>
                                             <input type="number" class="form-control" id="tax" name="tax"
-                                                placeholder="19% IVA">
+                                                placeholder="19% IVA" required>
                                         </div>
                                         <div class="col-4 mb-2">
-                                            <label for="amount" class="form-label">Amount</label>
+                                            <label for="amount" class="form-label">Total</label>
                                             <input type="number" class="form-control" id="amount" name="amount"
-                                                placeholder="$ 119,00 COP">
+                                                placeholder="$ 119,00 COP" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Add</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
                                 </div>
                             </div>
                         </form>
@@ -85,37 +96,85 @@
         <hr class="mt-2">
         <div class="card mt-2">
             <div class="card-header">
-                <h3>Bills Registered</h3>
+                <h3 class="fst-italic">Facturas Registradas</h3>
             </div>
             <div class="card-body">
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">Number</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Customer</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Expiration Date</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Actinos</th>
+                            <th scope="col">N°</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Moneda</th>
+                            <th scope="col">Fecha vencimiento</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Acción</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($bills as $item)
-                            <tr>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->description }}</td>
-                                <td>{{ $item->name }} {{ $item->last_name }}</td>
-                                <td>{{ $item->amount }}</td>
-                                <td>{{ $item->expiration_date }}</td>
-                                <td>{{ $item->status }}</td>
-                                <td><i class="bi bi-pencil-square btn btn-primary"></i> | <i class="bi bi-x-square btn btn-danger"></i></td>
-                            </tr> 
-                        @endforeach
+                        {{-- <form id="formDelete" action={{ url('/bill/' . $item->id) }}>
+                            @foreach ($bills as $item)
+                                @method('GET')
+                                @csrf
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->description }}</td>
+                                    <td>{{ $item->name }} {{ $item->last_name }}</td>
+                                    <td class="text-uppercase">{{ $item->currency }}</td>
+                                    <td>$ {{ $item->amount }}</td>
+                                    <td>{{ $item->expiration_date }}</td>
+                                    <td>{{ $item->status }}</td>
+                                    <td>
+                                        <button class="btn btn-danger bi bi-x-circle-fill" type="submit"></button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </form> --}}
+                            @foreach ($bills as $item)
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->description }}</td>
+                                    <td>{{ $item->name }} {{ $item->last_name }}</td>
+                                    <td class="text-uppercase">{{ $item->currency }}</td>
+                                    <td>{{ $item->amount }}</td>
+                                    <td>{{ $item->expiration_date }}</td>
+                                    <td>{{ $item->status }}</td>
+                                    <td><a id="delete" href={{ url('/bill/' . $item->id) }}>
+                                            <i class="btn btn-danger bi bi-x-circle-fill"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <script>
+        var form = document.getElementById("delete");
+        form.addEventListener("click", function(e) {
+            e.preventDefault();
+            swal({
+                    title: "Desea aunlar esta factura",
+                    // text: "Once deleted, you will not be able to recover this imaginary file!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        this.href();
+                    }
+                });
+        });
+    </script>
+
+    <script>
+        elemento = document.getElementById('date');
+        f = new Date();
+        elemento.value = f.getYear() + 1900 + "-" + f.getMonth() + 1 + "-" + f.getDate();
+        document.getElementById('expiration_date').min = f.getYear() + 1900 + "-" + f.getMonth() + 1 + "-" + f.getDate();
+    </script>
 @endsection

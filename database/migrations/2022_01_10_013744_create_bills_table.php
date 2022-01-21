@@ -19,6 +19,7 @@ class CreateBillsTable extends Migration
             $table->float('tax_base');
             $table->float('tax');
             $table->float('amount');
+            $table->string('currency',3);
             $table->date('date');
             $table->date('expiration_date');
             $table->string('status', 50);

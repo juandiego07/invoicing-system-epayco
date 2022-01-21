@@ -37,6 +37,17 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'document_type' => 'required',
+            'document_number' => 'required',
+            'phone_number' => 'required|confirmed',
+            'name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required',
+            'address' => 'required',
+        ]);
+        
         $data = [
             'document_type' => $request->input('document_type'),
             'document_number' => $request->input('document_number'),
@@ -50,11 +61,11 @@ class CustomerController extends Controller
         $customer = Customer::create($data);
 
         $user = User::find(auth()->user()->id);
-        
+
         $user->customers()->attach($customer->id);
 
         $customers = User::find(auth()->user()->id)->customers()->get();
-        
+
         return redirect()->route('customer', ['customers' => $customers]);
     }
 

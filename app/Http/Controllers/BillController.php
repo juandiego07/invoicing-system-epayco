@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Bill;
 use App\Models\Customer;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BillController extends Controller
 {
@@ -15,6 +17,7 @@ class BillController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         //
@@ -55,6 +58,7 @@ class BillController extends Controller
             'tax_base' => $request->input('tax_base'),
             'tax' => $request->input('tax'),
             'amount' => $request->input('amount'),
+            'currency' => $request->input('currency'),
             'date' => $request->input('date'),
             'expiration_date' => $request->input('expiration_date'),
             'status' => 'Pendiente',
@@ -64,18 +68,8 @@ class BillController extends Controller
 
         $customer = Customer::find($request->input('customer'));
         $customer->bills()->create($data);
-
-        $customers = User::find(auth()->user()->id)->customers()->get();
-
-        $bills = DB::table('bills')
-            ->where('user_id', '=', auth()->user()->id)
-            ->join('customers', 'customers.id', '=', 'bills.customer_id')
-            ->select('bills.*', 'customers.name', 'customers.last_name')
-            ->get();
-        return redirect()->route(
-            'bill',
-            ['customers' => $customers, 'bills' => $bills]
-        );
+        Alert::success('Factura exitosa', 'Factura creada en base de datos');
+        return redirect()->route('bill');
     }
 
     /**
@@ -84,9 +78,34 @@ class BillController extends Controller
      * @param  \App\Models\Bill  $bill
      * @return \Illuminate\Http\Response
      */
-    public function show(Bill $bill)
+    public function show(Request $request)
     {
-        //
+
+        if ($request->input() == []) {
+
+            $bills = 'Consulta exitosa';
+            return response()->json(compact('bills'), 200);
+        } else if (!DB::table('customers')
+            ->where('document_type', '=', $request->input('document_type'))
+            ->where('document_number', '=', $request->input('document_number'))
+            ->exists()) {
+
+            $bills = 'No se encuentran facturas pendientes';
+            return response()->json(compact('bills'), 200);
+        } else {
+            $customer = DB::table('customers')
+                ->where('document_type', '=', $request->input('document_type'))
+                ->where('document_number', '=', $request->input('document_number'))
+                ->get();
+
+            $bills = Customer::find($customer[0]->id)->bills()
+                ->where('status', '=', 'Pendiente')
+                ->where('user_id', '=', auth()->user()->id)
+                ->select('id', 'tax_base', 'tax', 'amount', 'currency', 'expiration_date', 'description')
+                ->get();
+
+            return response()->json(compact('bills'), 200);
+        }
     }
 
     /**
@@ -95,9 +114,17 @@ class BillController extends Controller
      * @param  \App\Models\Bill  $bill
      * @return \Illuminate\Http\Response
      */
-    public function edit(Bill $bill)
+    public function edit($id)
     {
-        //
+        $affected = Bill::where('id', $id)
+            ->update(['status' => 'Anulada']);
+        if($affected){
+            Alert::success('Factura anulda');
+            return redirect()->route('bill');
+        }else{
+            Alert::warning('Factura no encontrada');
+            return redirect()->route('bill');
+        }
     }
 
     /**
