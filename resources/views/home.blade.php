@@ -1,43 +1,57 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
+@section('title', 'Dashboard')
 
 
 @section('content')
     <div class="container">
         <div class="card mt-5">
             <div class="card-header">
-                <h3>Unpaid bills</h3>
+                <h3 class="fst-italic">Facturas pendientes por pago</h3>
             </div>
             <div class="card-body">
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">N°</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Moneda</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Fecha vencimiento</th>
+                            <th scope="col">Estado</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>The Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        @foreach ($bills as $item)
+                            <form class="formDelete" action={{ url('/bill/' . $item->id) }}>
+                                @method('GET')
+                                @csrf
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->description }}</td>
+                                    <td>{{ $item->name }} {{ $item->last_name }}</td>
+                                    <td class="text-uppercase">{{ $item->currency }}</td>
+                                    <td>$ {{ $item->amount }}</td>
+                                    <td>{{ $item->expiration_date }}</td>
+                                    <td>{{ $item->status }}</td>
+                                </tr>
+                            </form>
+                        @endforeach
+                        {{-- @foreach ($bills as $item)
+                            <tr>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->name }} {{ $item->last_name }}</td>
+                                <td>{{ $item->amount }}</td>
+                                <td>{{ $item->expiration_date }}</td>
+                                <td>{{ $item->status }}</td>
+                                <td><a class="delete" href={{ url('/bill/' . $item->id) }}>
+                                        <i class="btn btn-danger bi bi-x-circle-fill"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach --}}
                     </tbody>
                 </table>
             </div>

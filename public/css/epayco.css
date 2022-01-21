@@ -1,0 +1,15 @@
+.btn-secondary{
+    background-color: #1C0E49 !important;
+}
+
+.navbar{
+    background-color: #1C0E49 !important;
+}
+
+.nav-link{
+    color: #ffffff !important;
+}
+
+.nav-link:hover{
+    color: grey !important;
+}

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,7 +20,13 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('home');
+    $bills = DB::table('bills')
+        ->where('user_id', '=', auth()->user()->id)
+        ->where('status', '!=', 'Anulada')
+        ->join('customers', 'customers.id', '=', 'bills.customer_id')
+        ->select('bills.*', 'customers.name', 'customers.last_name')
+        ->get();
+    return view('home', ['bills' => $bills]);
 })->name('home')->middleware('auth');
 
 Route::get('/register', 'App\Http\Controllers\RegisterController@create')
@@ -47,4 +54,6 @@ Route::get('/bill', 'App\Http\Controllers\BillController@create')
     ->middleware('auth')
     ->name('bill');
 Route::post('/bill', 'App\Http\Controllers\BillController@store')
-    ->name('bill.store');    
+    ->name('bill.store');
+Route::get('/bill/{id}', 'App\Http\Controllers\BillController@edit')
+    ->name('bill.edit');     

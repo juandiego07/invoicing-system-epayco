@@ -13,6 +13,7 @@ class Bill extends Model
         'tax_base',
         'tax',
         'amount',
+        'currency',
         'date',
         'expiration_date',
         'status',
