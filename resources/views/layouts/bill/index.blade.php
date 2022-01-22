@@ -113,9 +113,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- <form id="formDelete" action={{ url('/bill/' . $item->id) }}>
-                            @foreach ($bills as $item)
-                                @method('GET')
+                        @foreach ($bills as $item)
+                            <form id="delete" method="GET" action={{ url('/bill/' . $item->id) }}>
                                 @csrf
                                 <tr>
                                     <td>{{ $item->id }}</td>
@@ -129,48 +128,13 @@
                                         <button class="btn btn-danger bi bi-x-circle-fill" type="submit"></button>
                                     </td>
                                 </tr>
-                            @endforeach
-                        </form> --}}
-                            @foreach ($bills as $item)
-                                <tr>
-                                    <td>{{ $item->id }}</td>
-                                    <td>{{ $item->description }}</td>
-                                    <td>{{ $item->name }} {{ $item->last_name }}</td>
-                                    <td class="text-uppercase">{{ $item->currency }}</td>
-                                    <td>{{ $item->amount }}</td>
-                                    <td>{{ $item->expiration_date }}</td>
-                                    <td>{{ $item->status }}</td>
-                                    <td><a id="delete" href={{ url('/bill/' . $item->id) }}>
-                                            <i class="btn btn-danger bi bi-x-circle-fill"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            </form>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-    <script>
-        var form = document.getElementById("delete");
-        form.addEventListener("click", function(e) {
-            e.preventDefault();
-            swal({
-                    title: "Desea aunlar esta factura",
-                    // text: "Once deleted, you will not be able to recover this imaginary file!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        this.href();
-                    }
-                });
-        });
-    </script>
-
     <script>
         elemento = document.getElementById('date');
         f = new Date();

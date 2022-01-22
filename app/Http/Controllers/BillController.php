@@ -118,10 +118,10 @@ class BillController extends Controller
     {
         $affected = Bill::where('id', $id)
             ->update(['status' => 'Anulada']);
-        if($affected){
+        if ($affected) {
             Alert::success('Factura anulda');
             return redirect()->route('bill');
-        }else{
+        } else {
             Alert::warning('Factura no encontrada');
             return redirect()->route('bill');
         }
