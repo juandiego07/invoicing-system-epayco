@@ -68,7 +68,7 @@ class BillController extends Controller
 
         $customer = Customer::find($request->input('customer'));
         $customer->bills()->create($data);
-        Alert::success('Factura exitosa', 'Factura creada en base de datos');
+        Alert::success('Registro creado con exito');
         return redirect()->route('bill');
     }
 
@@ -119,10 +119,10 @@ class BillController extends Controller
         $affected = Bill::where('id', $id)
             ->update(['status' => 'Anulada']);
         if ($affected) {
-            Alert::success('Factura anulda');
+            Alert::success('Registro anulado con exito');
             return redirect()->route('bill');
         } else {
-            Alert::warning('Factura no encontrada');
+            Alert::warning('Registro no encontrado');
             return redirect()->route('bill');
         }
     }

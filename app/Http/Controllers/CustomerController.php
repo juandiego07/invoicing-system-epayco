@@ -55,7 +55,7 @@ class CustomerController extends Controller
         $user->customers()->attach($customer->id);
 
         $customers = User::find(auth()->user()->id)->customers()->get();
-        Alert::success('','Cliente agregado con exito');
+        Alert::success('Registro creado con exito');
         return redirect()->route('customer', ['customers' => $customers]);
     }
 

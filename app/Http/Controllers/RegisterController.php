@@ -26,7 +26,7 @@ class RegisterController extends Controller
         ];
         $user = User::create($data);
         Auth::login($user);
-        Alert::success('Usuario registrado', 'Bienvenido al sistema');
+        Alert::success('Registro creado con exito', 'Bienvenido al sistema');
         return redirect()->to('/');
     }
 }
