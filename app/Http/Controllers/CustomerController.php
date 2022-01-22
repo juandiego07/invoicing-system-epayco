@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CustomerController extends Controller
 {
@@ -37,17 +38,6 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-
-        $request->validate([
-            'document_type' => 'required',
-            'document_number' => 'required',
-            'phone_number' => 'required|confirmed',
-            'name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required',
-            'address' => 'required',
-        ]);
-        
         $data = [
             'document_type' => $request->input('document_type'),
             'document_number' => $request->input('document_number'),
@@ -65,7 +55,7 @@ class CustomerController extends Controller
         $user->customers()->attach($customer->id);
 
         $customers = User::find(auth()->user()->id)->customers()->get();
-
+        Alert::success('','Cliente agregado con exito');
         return redirect()->route('customer', ['customers' => $customers]);
     }
 
