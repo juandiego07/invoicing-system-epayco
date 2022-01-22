@@ -13,7 +13,7 @@
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
                     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
-                        <form method="POST" action={{ route('customer.store') }}>
+                        <form class="needs-validation" method="POST" action={{ route('customer.store') }} autocomplete="off" novalidate>
                             @csrf
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -26,7 +26,7 @@
                                         <div class="col-2 mb-2">
                                             <label for="document_type" class="form-label">Tipo</label>
                                             <select class="form-select" aria-label="Default select example"
-                                                id="document_type" name="document_type">
+                                                id="document_type" name="document_type" required>
                                                 <option selected></option>
                                                 <option value="NIT">NIT</option>
                                                 <option value="PEP">PEP</option>
@@ -37,36 +37,36 @@
                                         <div class="col-5 mb-2">
                                             <label for="document_number" class="form-label">Número de Documento</label>
                                             <input type="number" class="form-control" id="document_number"
-                                                name="document_number" placeholder="1234567890">
+                                                name="document_number" placeholder="1234567890" required>
                                         </div>
                                         <div class="col-5 mb-2">
                                             <label for="phone_number" class="form-label">Número de Teléfono</label>
                                             <input type="number" class="form-control" id="phone_number"
-                                                name="phone_number" placeholder="3001234567">
+                                                name="phone_number" placeholder="3001234567" required>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-6 mb-2">
                                             <label for="name" class="form-label">Nombres</label>
                                             <input type="text" class="form-control" id="name" name="name"
-                                                placeholder="Pepito Fulanito">
+                                                placeholder="Pepito Fulanito" required>
                                         </div>
                                         <div class="col-6 mb-2">
                                             <label for="last_name" class="form-label">Apellidos</label>
                                             <input type="text" class="form-control" id="last_name" name="last_name"
-                                                placeholder="Perez Perez">
+                                                placeholder="Perez Perez" required>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-6 mb-2">
                                             <label for="email" class="form-label">Dirección de Correo Electrónico</label>
                                             <input type="email" class="form-control" id="email" name="email"
-                                                placeholder="name@example.com">
+                                                placeholder="name@example.com" required>
                                         </div>
                                         <div class="col-6 mb-2">
                                             <label for="address" class="form-label">Dirección</label>
                                             <input type="text" class="form-control" id="address" name="address"
-                                                placeholder="Calle 1 # 2 - 3, Medellin, Antioquia">
+                                                placeholder="Calle 1 # 2 - 3, Medellin, Antioquia" required>
                                         </div>
                                     </div>
                                 </div>
