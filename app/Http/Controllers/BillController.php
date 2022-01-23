@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bill;
 use App\Models\Customer;
 use App\Models\User;
+use ArrayObject;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -98,13 +99,31 @@ class BillController extends Controller
                 ->where('document_number', '=', $request->input('document_number'))
                 ->get();
 
-            $bills = Customer::find($customer[0]->id)->bills()
-                ->where('status', '=', 'Pendiente')
-                ->where('user_id', '=', auth()->user()->id)
-                ->select('id', 'tax_base', 'tax', 'amount', 'currency', 'expiration_date', 'description')
+            $bills = DB::table('bills')
+                ->where('customer_id', '=', $customer[0]->id)
+                ->join('customers', 'customers.id', '=', 'bills.customer_id')
+                ->select('bills.id', 'bills.tax_base', 'bills.tax', 'bills.amount', 'bills.currency', 'bills.expiration_date', 'bills.description', 'customers.document_type', 'customers.document_number', 'customers.name', 'customers.last_name')
                 ->get();
 
-            return response()->json(compact('bills'), 200);
+            $data = [];
+
+            foreach ($bills as $bill) {
+                array_push($data, array(
+                    "id" => $bill->id,
+                    "tax_base" => $bill->tax_base,
+                    "tax" => $bill->tax,
+                    "amount" => $bill->amount,
+                    "currency" => $bill->currency,
+                    "expiration_date" => $bill->expiration_date,
+                    "description" => $bill->description,
+                    "document_type" => $bill->document_type,
+                    "document_number" => $bill->document_number,
+                    "full_name" => $bill->name . ' ' . $bill->last_name
+                ));
+            }
+
+            return response()->json($data, 200);
+            // return response()->json(compact('bills')['bills'], 200);
         }
     }
 
