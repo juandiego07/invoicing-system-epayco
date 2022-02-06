@@ -136,9 +136,6 @@
         </div>
     </div>
     <script>
-        elemento = document.getElementById('date');
-        f = new Date();
-        elemento.value = f.getYear() + 1900 + "-" + f.getMonth() + 1 + "-" + f.getDate();
-        document.getElementById('expiration_date').min = f.getYear() + 1900 + "-" + f.getMonth() + 1 + "-" + f.getDate();
+
     </script>
 @endsection
