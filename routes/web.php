@@ -14,20 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-
-Route::get('/', function () {
-    $bills = DB::table('bills')
-        ->where('user_id', '=', auth()->user()->id)
-        ->where('status', '!=', 'Anulada')
-        ->join('customers', 'customers.id', '=', 'bills.customer_id')
-        ->select('bills.*', 'customers.name', 'customers.last_name')
-        ->get();
-    return view('home', ['bills' => $bills]);
-})->name('home')->middleware('auth');
+Route::get('/', 'App\Http\Controllers\HomeController@index')
+    ->middleware('auth')
+    ->name('home');
+Route::get('/home/{status}', 'App\Http\Controllers\HomeController@show')
+    ->middleware('auth')
+    ->name('home.show');
 
 Route::get('/register', 'App\Http\Controllers\RegisterController@create')
     ->middleware('guest')
@@ -48,11 +40,11 @@ Route::get('/customer', 'App\Http\Controllers\CustomerController@create')
     ->middleware('auth')
     ->name('customer');
 Route::get('/customer/{id}', 'App\Http\Controllers\CustomerController@edit')
-->middleware('auth')
-->name('customer.edit');
+    ->middleware('auth')
+    ->name('customer.edit');
 Route::post('/customer/update', 'App\Http\Controllers\CustomerController@update')
-->middleware('auth')
-->name('customer.update');
+    ->middleware('auth')
+    ->name('customer.update');
 Route::post('/customer', 'App\Http\Controllers\CustomerController@store')
     ->name('customer.store');
 
@@ -62,4 +54,4 @@ Route::get('/bill', 'App\Http\Controllers\BillController@create')
 Route::post('/bill', 'App\Http\Controllers\BillController@store')
     ->name('bill.store');
 Route::get('/bill/{id}', 'App\Http\Controllers\BillController@edit')
-    ->name('bill.edit');     
+    ->name('bill.edit');
