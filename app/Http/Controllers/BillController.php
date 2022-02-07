@@ -35,6 +35,7 @@ class BillController extends Controller
 
         $bills = DB::table('bills')
             ->where('user_id', '=', auth()->user()->id)
+            ->where('status', '!=', 'Anulada')
             ->join('customers', 'customers.id', '=', 'bills.customer_id')
             ->select('bills.*', 'customers.name', 'customers.last_name')
             ->get();
