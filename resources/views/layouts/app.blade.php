@@ -62,6 +62,7 @@
     @include('sweetalert::alert')
 
     <script src={{ asset('js/validation.js') }}></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
