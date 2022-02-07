@@ -105,7 +105,7 @@
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->last_name }}</td>
                                 <td>{{ $item->phone_number }}</td>
-                                <td><i class="bi bi-pencil-square btn btn-primary"></i> | <i class="bi bi-x-square btn btn-danger"></i></td>
+                                <td><a href={{ route('customer.edit', ['id'=>$item->id]) }}><i class="bi bi-pencil-square btn btn-primary"></i></a></td> {{-- | <i class="bi bi-x-square btn btn-danger"></i> --}}
                             </tr>
                         @endforeach
                     </tbody>

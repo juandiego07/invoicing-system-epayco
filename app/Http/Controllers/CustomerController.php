@@ -76,9 +76,10 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Customer $customer)
+    public function edit($id)
     {
-        //
+        $customer = Customer::find($id);
+        return view('layouts.customer.edit', ['customer' => $customer]);
     }
 
     /**
@@ -88,9 +89,25 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request)
     {
-        //
+
+        // dd($request->input('id'));
+        $response = Customer::where('id', $request->input('id'))
+            ->update([
+                'phone_number' => $request->input('phone_number'),
+                'name' => $request->input('name'),
+                'last_name' => $request->input('last_name'),
+                'email' => $request->input('email'),
+                'address' => $request->input('address')
+            ]);
+        if ($response) {
+            Alert::success('Registro actualizado con exito');
+            return redirect()->route('customer');
+        } else {
+            Alert::warning('Registro no encontrado');
+            return redirect()->route('customer');
+        }
     }
 
     /**

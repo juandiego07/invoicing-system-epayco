@@ -47,6 +47,12 @@ Route::get('/logout', 'App\Http\Controllers\SessionController@destroy')
 Route::get('/customer', 'App\Http\Controllers\CustomerController@create')
     ->middleware('auth')
     ->name('customer');
+Route::get('/customer/{id}', 'App\Http\Controllers\CustomerController@edit')
+->middleware('auth')
+->name('customer.edit');
+Route::post('/customer/update', 'App\Http\Controllers\CustomerController@update')
+->middleware('auth')
+->name('customer.update');
 Route::post('/customer', 'App\Http\Controllers\CustomerController@store')
     ->name('customer.store');
 
