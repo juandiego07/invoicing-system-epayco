@@ -92,7 +92,6 @@ class CustomerController extends Controller
     public function update(Request $request)
     {
 
-        // dd($request->input('id'));
         $response = Customer::where('id', $request->input('id'))
             ->update([
                 'phone_number' => $request->input('phone_number'),
