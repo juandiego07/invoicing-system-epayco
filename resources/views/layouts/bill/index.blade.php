@@ -69,17 +69,17 @@
                                         <div class="col-4 mb-2">
                                             <label for="tax_base" class="form-label">Valor base</label>
                                             <input type="number" class="form-control" id="tax_base" name="tax_base"
-                                                placeholder="$ 100,00 COP" required>
+                                                value="0" required>
                                         </div>
                                         <div class="col-4 mb-2">
                                             <label for="tax" class="form-label">Impuesto</label>
                                             <input type="number" class="form-control" id="tax" name="tax"
-                                                placeholder="19% IVA" required>
+                                                value="0" required>
                                         </div>
                                         <div class="col-4 mb-2">
                                             <label for="amount" class="form-label">Total</label>
                                             <input type="number" class="form-control" id="amount" name="amount"
-                                                placeholder="$ 119,00 COP" required>
+                                                value="0" required readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@
                     </thead>
                     <tbody>
                         @foreach ($bills as $item)
-                            <form id="delete" method="GET" action={{ url('/bill/' . $item->id) }}>
+                            <form class="delete" method="GET" action={{ url('/bill/' . $item->id) }}>
                                 @csrf
                                 <tr>
                                     <td>{{ $item->id }}</td>
@@ -135,4 +135,51 @@
             </div>
         </div>
     </div>
+    <script>
+        var elemento = document.getElementById("date");
+        var f = new Date();
+        var dd = parseInt(f.getDate());
+        var mm = parseInt(f.getMonth()) + 1;
+        var yy = parseInt(f.getYear()) + 1900;
+        dd = dd < 10 ? "0" + dd.toString() : dd.toString();
+        mm = mm < 10 ? "0" + mm.toString() : mm.toString();
+        var date = yy.toString() + "-" + mm + "-" + dd;
+        elemento.value = date;
+        document.getElementById("expiration_date").min = date;
+
+        var formulario = document.querySelectorAll('.delete')
+        formulario.forEach(element => {
+            element.addEventListener('submit', e => {
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Desea anular esta factura?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, anular',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        e.target.submit();
+                    }
+                })
+            });
+        });
+
+        var tax_base = document.getElementById('tax_base');
+        var amount = document.getElementById('amount');
+        tax_base.onkeyup = handleChange1;
+        function handleChange1(e) {
+            var result = parseInt(e.target.value) + parseInt(tax.value)
+            amount.value = result.toString();            
+        }
+        
+        var tax = document.getElementById('tax');
+        tax.onkeyup = handleChange2;
+        function handleChange2(e) {
+            var result = parseInt(e.target.value) + parseInt(tax_base.value)
+            amount.value = result.toString();
+        }
+    </script>
 @endsection
