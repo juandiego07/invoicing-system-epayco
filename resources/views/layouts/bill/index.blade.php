@@ -69,17 +69,17 @@
                                         <div class="col-4 mb-2">
                                             <label for="tax_base" class="form-label">Valor base</label>
                                             <input type="number" class="form-control" id="tax_base" name="tax_base"
-                                                placeholder="$ 100,00 COP" required>
+                                                value="0" required>
                                         </div>
                                         <div class="col-4 mb-2">
                                             <label for="tax" class="form-label">Impuesto</label>
                                             <input type="number" class="form-control" id="tax" name="tax"
-                                                placeholder="19% IVA" required>
+                                                value="0" required>
                                         </div>
                                         <div class="col-4 mb-2">
                                             <label for="amount" class="form-label">Total</label>
                                             <input type="number" class="form-control" id="amount" name="amount"
-                                                placeholder="$ 119,00 COP" required>
+                                                value="0" required readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -113,9 +113,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- <form id="formDelete" action={{ url('/bill/' . $item->id) }}>
-                            @foreach ($bills as $item)
-                                @method('GET')
+                        @foreach ($bills as $item)
+                            <form class="delete" method="GET" action={{ url('/bill/' . $item->id) }}>
                                 @csrf
                                 <tr>
                                     <td>{{ $item->id }}</td>
@@ -129,52 +128,58 @@
                                         <button class="btn btn-danger bi bi-x-circle-fill" type="submit"></button>
                                     </td>
                                 </tr>
-                            @endforeach
-                        </form> --}}
-                            @foreach ($bills as $item)
-                                <tr>
-                                    <td>{{ $item->id }}</td>
-                                    <td>{{ $item->description }}</td>
-                                    <td>{{ $item->name }} {{ $item->last_name }}</td>
-                                    <td class="text-uppercase">{{ $item->currency }}</td>
-                                    <td>{{ $item->amount }}</td>
-                                    <td>{{ $item->expiration_date }}</td>
-                                    <td>{{ $item->status }}</td>
-                                    <td><a id="delete" href={{ url('/bill/' . $item->id) }}>
-                                            <i class="btn btn-danger bi bi-x-circle-fill"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            </form>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
     <script>
-        var form = document.getElementById("delete");
-        form.addEventListener("click", function(e) {
-            e.preventDefault();
-            swal({
-                    title: "Desea aunlar esta factura",
-                    // text: "Once deleted, you will not be able to recover this imaginary file!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        this.href();
+        var elemento = document.getElementById("date");
+        var f = new Date();
+        var dd = parseInt(f.getDate());
+        var mm = parseInt(f.getMonth()) + 1;
+        var yy = parseInt(f.getYear()) + 1900;
+        dd = dd < 10 ? "0" + dd.toString() : dd.toString();
+        mm = mm < 10 ? "0" + mm.toString() : mm.toString();
+        var date = yy.toString() + "-" + mm + "-" + dd;
+        elemento.value = date;
+        document.getElementById("expiration_date").min = date;
+
+        var formulario = document.querySelectorAll('.delete')
+        formulario.forEach(element => {
+            element.addEventListener('submit', e => {
+                e.preventDefault();
+                Swal.fire({
+                    title: '¿Desea anular esta factura?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, anular',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        e.target.submit();
                     }
-                });
+                })
+            });
         });
-    </script>
 
-    <script>
-        elemento = document.getElementById('date');
-        f = new Date();
-        elemento.value = f.getYear() + 1900 + "-" + f.getMonth() + 1 + "-" + f.getDate();
-        document.getElementById('expiration_date').min = f.getYear() + 1900 + "-" + f.getMonth() + 1 + "-" + f.getDate();
+        var tax_base = document.getElementById('tax_base');
+        var amount = document.getElementById('amount');
+        tax_base.onkeyup = handleChange1;
+        function handleChange1(e) {
+            var result = parseInt(e.target.value) + parseInt(tax.value)
+            amount.value = result.toString();            
+        }
+        
+        var tax = document.getElementById('tax');
+        tax.onkeyup = handleChange2;
+        function handleChange2(e) {
+            var result = parseInt(e.target.value) + parseInt(tax_base.value)
+            amount.value = result.toString();
+        }
     </script>
 @endsection

@@ -17,3 +17,14 @@
         );
     });
 })();
+
+var elements = document.querySelectorAll(".status");
+elements.forEach(function (item) {
+    if (item.innerText == "Anulada") {
+        return item.classList.add("text-danger");
+    } else if (item.innerText == "Pendiente") {
+        return item.classList.add("text-warning");
+    } else {
+        return item.classList.add("text-success");
+    }
+});

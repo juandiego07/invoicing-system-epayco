@@ -25,11 +25,11 @@ class SessionController extends Controller
         ];
         if (!Auth::attempt($credentials)) {
 
-            Alert::error('Error', 'Usuario o contraseña incorrectos');
+            Alert::error('Usuario o contraseña incorrectos');
             return back();
         }
 
-        Alert::success('Acceso correcto', 'Bienvenido al sistema');
+        Alert::success('Bienvenido al sistema');
         return redirect()->to('/');
     }
 
