@@ -87,6 +87,7 @@ class BillController extends Controller
 
             $bills = 'Consulta exitosa';
             return response()->json(compact('bills'), 200);
+
         } else if (!DB::table('customers')
             ->where('document_type', '=', $request->input('document_type'))
             ->where('document_number', '=', $request->input('document_number'))
@@ -94,7 +95,9 @@ class BillController extends Controller
 
             $bills = 'No se encuentran facturas pendientes';
             return response()->json(compact('bills'), 200);
+
         } else {
+
             $customer = DB::table('customers')
                 ->where('document_type', '=', $request->input('document_type'))
                 ->where('document_number', '=', $request->input('document_number'))
@@ -102,6 +105,7 @@ class BillController extends Controller
 
             $bills = DB::table('bills')
                 ->where('customer_id', '=', $customer[0]->id)
+                ->where('status', '=', 'Pendiente')
                 ->join('customers', 'customers.id', '=', 'bills.customer_id')
                 ->select('bills.id', 'bills.tax_base', 'bills.tax', 'bills.amount', 'bills.currency', 'bills.expiration_date', 'bills.description', 'customers.document_type', 'customers.document_number', 'customers.name', 'customers.last_name')
                 ->get();
@@ -124,7 +128,6 @@ class BillController extends Controller
             }
 
             return response()->json($data, 200);
-            // return response()->json(compact('bills')['bills'], 200);
         }
     }
 
