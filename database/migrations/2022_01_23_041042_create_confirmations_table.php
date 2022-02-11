@@ -20,7 +20,7 @@ class CreateConfirmationsTable extends Migration
             $table->integer('x_ref_payco');
             $table->integer('x_id_invoice');
             $table->string('x_transaction_state');
-            $table->string('log');
+            $table->text('log');
 
             $table->timestamps();
         });
