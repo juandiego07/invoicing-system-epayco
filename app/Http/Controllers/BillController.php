@@ -127,7 +127,8 @@ class BillController extends Controller
                 ));
             }
 
-            return response()->json($data, 200);
+            return response()->json(compact('data'));
+            // return response()->json($data, 200);
         }
     }
 
