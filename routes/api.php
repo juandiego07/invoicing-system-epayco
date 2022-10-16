@@ -19,9 +19,11 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/login', 'App\Http\Controllers\SessionController@authenticate');
+Route::post('/bills', 'App\Http\Controllers\BillController@show');
+Route::post('/confirmation', 'App\Http\Controllers\ConfirmationController@store');
 
-Route::group(['middleware' => ['jwt.verify']], function () {
-    Route::post('/bills', 'App\Http\Controllers\BillController@show');
-    Route::post('/confirmation', 'App\Http\Controllers\ConfirmationController@store');
+// Route::group(['middleware' => ['jwt.verify']], function () {
+//     Route::post('/bills', 'App\Http\Controllers\BillController@show');
+//     Route::post('/confirmation', 'App\Http\Controllers\ConfirmationController@store');
 
-});
+// });
