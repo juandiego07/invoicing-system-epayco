@@ -50,7 +50,7 @@ class ConfirmationController extends Controller
         
         $result = DB::table('bills')
             ->where('id', '=', intval($request->input('x_id_invoice')))
-            ->where('user_id', '=', auth()->user()->id)
+            // ->where('user_id', '=', auth()->user()->id)
             ->get();
 
         if ($result->isEmpty()) {
