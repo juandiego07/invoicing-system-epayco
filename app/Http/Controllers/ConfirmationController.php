@@ -62,7 +62,7 @@ class ConfirmationController extends Controller
         } else if ($result['0']->status == 'Pendiente' && $request->input('x_cod_response') == 1 && $request->input('x_test_request') == 'FALSE') {
             $update = DB::table('bills')
                 ->where('id', '=', intval($request->input('x_id_invoice')))
-                ->where('user_id', '=', auth()->user()->id)
+                // ->where('user_id', '=', auth()->user()->id)
                 ->update(['status' => 'Pagada']);
 
             if($update){
