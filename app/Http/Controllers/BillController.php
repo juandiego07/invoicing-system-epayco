@@ -85,16 +85,16 @@ class BillController extends Controller
 
         if ($request->input() == []) {
 
-            $bills = 'Consulta exitosa';
-            return response()->json(compact('bills'));
+            $data = 'Consulta exitosa';
+            return response()->json(compact('data'));
 
         } else if (!DB::table('customers')
             ->where('document_type', '=', $request->input('document_type'))
             ->where('document_number', '=', $request->input('document_number'))
             ->exists()) {
 
-            $bills = 'No se encuentran facturas pendientes';
-            return response()->json(compact('bills'));
+            $data = 'No se encuentran facturas pendientes';
+            return response()->json(compact('data'));
 
         } else {
 
@@ -127,7 +127,7 @@ class BillController extends Controller
                 ));
             }
 
-            return response()->json(compact('data'));
+              return response()->json(compact('data'));
         }
     }
 
