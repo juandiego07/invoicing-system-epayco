@@ -8,6 +8,7 @@ use App\Models\User;
 use ArrayObject;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -82,6 +83,16 @@ class BillController extends Controller
      */
     public function show(Request $request)
     {
+        $userpwd = explode(":", base64_decode(substr($request->header('authorization'), 6)));
+        $credentials = [
+            'email' => $userpwd[0],
+            'password' => $userpwd[1],
+        ];
+        if(!Auth::attempt($credentials))
+        {
+            $data = 'Usuario o constraseña invalidos';
+            return response()->json(compact('data'));
+        }
 
         if ($request->input() == []) {
 
