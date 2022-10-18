@@ -8,6 +8,7 @@ use App\Models\User;
 use ArrayObject;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -82,19 +83,29 @@ class BillController extends Controller
      */
     public function show(Request $request)
     {
+        $userpwd = explode(":", base64_decode(substr($request->header('authorization'), 6)));
+        $credentials = [
+            'email' => $userpwd[0],
+            'password' => $userpwd[1],
+        ];
+        if(!Auth::attempt($credentials))
+        {
+            $data = 'Usuario o constraseña invalidos';
+            return response()->json(compact('data'));
+        }
 
         if ($request->input() == []) {
 
-            $bills = 'Consulta exitosa';
-            return response()->json(compact('bills'));
+            $data = 'Consulta exitosa';
+            return response()->json(compact('data'));
 
         } else if (!DB::table('customers')
             ->where('document_type', '=', $request->input('document_type'))
             ->where('document_number', '=', $request->input('document_number'))
             ->exists()) {
 
-            $bills = 'No se encuentran facturas pendientes';
-            return response()->json(compact('bills'));
+            $data = 'No se encuentran facturas pendientes';
+            return response()->json(compact('data'));
 
         } else {
 
@@ -127,7 +138,7 @@ class BillController extends Controller
                 ));
             }
 
-            return response()->json(compact('data'));
+              return response()->json(compact('data'));
         }
     }
 
