@@ -5,10 +5,9 @@
 @section('content')
 
     <div class="container">
-        <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
-                <div class="card mt-5">
+        <div class="row vh-100">
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="card">
                     <h5 class="card-header fst-italic">Iniciar sesión</h5>
                     <div class="card-body">
                         <form class="needs-validation" method="POST" action={{ route('login.store') }} id="form_login"
@@ -34,7 +33,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3"></div>
         </div>
     </div>
 
