@@ -13,3 +13,8 @@
 .nav-link:hover{
     color: grey !important;
 }
+
+.logo{
+    max-width: 150px;
+    max-height: 200px;
+}

@@ -18,15 +18,14 @@
 </head>
 
 <body class="bg-light">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href={{ route('home') }}><img src={{ asset('img/logo.png') }} alt="log-epayco"
-                    style="max-width: 150px; max-height: 200px;"></a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-md container-fluid">
+            <a class="navbar-brand" href={{ route('home') }}><img class="logo" src={{ asset('img/logo.png') }} alt="log-epayco"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <div class="collapse navbar-collapse d-sm-flex justify-content-end mx-md-5" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     @if (Auth::check())
                         <li class="nav-item">
