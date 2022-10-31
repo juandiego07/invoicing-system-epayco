@@ -5,7 +5,7 @@
 @section('content')
 
     <div class="container">
-        <div class="row my-2">
+        <div class="row mt-6">
             <div class="col-12 d-flex flex-row-reverse">
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Nuevo Cliente
